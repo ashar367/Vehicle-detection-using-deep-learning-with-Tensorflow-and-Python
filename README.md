@@ -96,7 +96,7 @@ Finally, run the following commands from the C:\tensorflow12\models\research dir
 From the \object_detection directory, issue this command:
 (tensorflow12) C:\tensorflow12\models\research\object_detection> jupyter notebook object_detection_tutorial.ipynb
 
-![Image of Yaktocat](https://octodex.github.com/images/yaktocat.png)
+![Image of objects](https://github.com/tensorflow/models/raw/master/research/object_detection/g3doc/img/kites_detections_output.jpg)
 
 
 
