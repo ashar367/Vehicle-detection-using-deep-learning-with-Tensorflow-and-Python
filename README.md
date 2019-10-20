@@ -260,14 +260,50 @@ Make the following changes to the faster_rcnn_inception_v2_pets.config file.
 * Line 106. Change fine_tune_checkpoint to:
 
 fine_tune_checkpoint : "C:/tensorflow1/models/research/object_detection/faster_rcnn_inception_v2_coco_2018_01_28/model.ckpt"
-Lines 123 and 125. In the train_input_reader section, change input_path and label_map_path to:
+
+*Lines 123 and 125. In the train_input_reader section, change input_path and label_map_path to:
 
 input_path : "C:/tensorflow1/models/research/object_detection/train.record"
 label_map_path: "C:/tensorflow1/models/research/object_detection/training/labelmap.pbtxt"
-Line 130. Change num_examples to the number of images you have in the \images\test directory.
 
-Lines 135 and 137. In the eval_input_reader section, change input_path and label_map_path to:
+* Line 130. Change num_examples to the number of images you have in the \images\test directory.
+
+* Lines 135 and 137. In the eval_input_reader section, change input_path and label_map_path to:
 
 input_path : "C:/tensorflow1/models/research/object_detection/test.record"
 label_map_path: "C:/tensorflow1/models/research/object_detection/training/labelmap.pbtxt"
+
 Save the file after the changes have been made. That’s it! The training job is all configured and ready to go!
+
+# 6. Run the Training
+
+From the \object_detection directory, issue the following command to begin training:
+
+python train.py --logtostderr --train_dir=training/ --pipeline_config_path=training/faster_rcnn_inception_v2_pets.config
+
+If everything has been set up correctly, TensorFlow will initialize the training. The initialization can take up to 30 seconds before the actual training begins. When training begins, it will look like this:
+
+Each step of training reports the loss. It will start high and get lower and lower as training progresses. For my training on the Faster-RCNN-Inception-V2 model, it started at about 3.0 and quickly dropped below 0.8. I recommend allowing your model to train until the loss consistently drops below 0.05, which will take about 40,000 steps, or about 2 hours (depending on how powerful your CPU and GPU are). Note: The loss numbers will be different if a different model is used. MobileNet-SSD starts with a loss of about 20, and should be trained until the loss is consistently under 2.
+
+You can view the progress of the training job by using TensorBoard. To do this, open a new instance of Anaconda Prompt, activate the tensorflow1 virtual environment, change to the 
+C:\tensorflow12\models\research\object_detection directory, and issue the following command:
+
+(tensorflow12) C:\tensorflow12\models\research\object_detection>tensorboard --logdir=training
+
+This will create a webpage on your local machine at YourPCName:6006, which can be viewed through a web browser. The TensorBoard page provides information and graphs that show how the training is progressing. One important graph is the Loss graph, which shows the overall loss of the classifier over time.
+
+# 7. Export Inference Graph
+
+From the \object_detection folder, issue the following command, where “XXXX” in “model.ckpt-XXXX” should be replaced with the highest-numbered .ckpt file in the training folder:
+
+python export_inference_graph.py --input_type image_tensor --pipeline_config_path training/faster_rcnn_inception_v2_pets.config --trained_checkpoint_prefix training/model.ckpt-XXXX --output_directory inference_graph
+
+This creates a frozen_inference_graph.pb file in the \object_detection\inference_graph folder. The .pb file contains the object detection classifier.
+
+# 8. Use Newly Trained Object Detection Classifier!
+
+To run any of the scripts, type “idle” in the Anaconda Command Prompt (with the “tensorflow1” virtual environment activated) and press ENTER. This will open IDLE, and from there, you can open any of the scripts and run them.
+
+If everything is working properly, the object detector will initialize for about 10 seconds and then display a window showing any objects it’s detected in the image!
+
+If you encounter errors, please check out Googling the error. There is usually useful information on Stack Exchange or in TensorFlow’s Issues on GitHub.
