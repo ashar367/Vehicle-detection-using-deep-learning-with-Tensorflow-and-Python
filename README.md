@@ -54,13 +54,21 @@ Install tensorflow-cpu in this environment by issuing:
 
 Install the other necessary packages using commands:
 (tensorflow12) C:\> conda install -c anaconda protobuf
+
 (tensorflow12) C:\> pip install pillow
+
 (tensorflow12) C:\> pip install lxml
+
 (tensorflow12) C:\> pip install Cython
+
 (tensorflow12) C:\> pip install contextlib2
+
 (tensorflow12) C:\> pip install jupyter
+
 (tensorflow12) C:\> pip install matplotlib
+
 (tensorflow12) C:\> pip install pandas
+
 (tensorflow12) C:\> pip install opencv-python
 
 ( The ‘pandas’ and ‘opencv-python’ packages are not needed by TensorFlow. They are used in the Python scripts to generate TFRecords and to work with images, videos, and webcam feeds.)
@@ -90,13 +98,17 @@ From the \object_detection directory, issue this command:
 
 
 3. Gather and Label Pictures
+
 We need to provide the images it will use to train a new detection classifier.
+
 3a. Gather Pictures
+
 Make sure the images aren’t too large. They should be less than 200KB each, and their resolution shouldn’t be more than 720x1280. The larger the images are, the longer it will take to train the classifier. 
 
 Move 20% of them to the \object_detection\images\test directory, and 80% of them to the \object_detection\images\train directory.
 
 3b. Label Pictures
+
 LabelImg is a tool for labeling images.
 
 LabelImg GitHub link
@@ -108,4 +120,6 @@ Download and install LabelImg, point it to your \images\train directory, and the
 LabelImg saves a .xml file containing the label data for each image. These .xml files will be used to generate TFRecords, which are one of the inputs to the TensorFlow trainer. Once you have labeled and saved each image, there will be one .xml file for each image in the \test and \train directories.
 
 4. Generate Training Data
+
+
 
