@@ -38,10 +38,74 @@ This progarm use the Faster-RCNN-Inception-V2 model. Download the model here. Op
 
 2d. Set up new Anaconda virtual environment
 
-From the Start menu in Windows, search for the Anaconda Prompt utility, right click on it, and click “Run as Administrator”. If Windows asks you if you would like to allow it to make changes to your computer, click Yes.
+Go to the start menu in Windows, search for the Anaconda Prompt utility, right click on it, and click “Run as Administrator”. The  Windows will asks if you would like to allow it to make changes to your computer, click Yes.
 
-In the command terminal that pops up, create a new virtual environment called “tensorflow1” by issuing the following command:
+In the command terminal that pops up, create a new virtual environment called “tensorflow12” by issuing the following command:
+
+C:\> conda create -n tensorflow12 pip python=3.5
+
+Activate the environment and update pip:
+C:\> activate tensorflow12
+
+(tensorflow1) C:\>python -m pip install --upgrade pip
+
+Install tensorflow-cpu in this environment by issuing:
+(tensorflow1) C:\> pip install --ignore-installed --upgrade tensorflow
+
+Install the other necessary packages using commands:
+(tensorflow12) C:\> conda install -c anaconda protobuf
+(tensorflow12) C:\> pip install pillow
+(tensorflow12) C:\> pip install lxml
+(tensorflow12) C:\> pip install Cython
+(tensorflow12) C:\> pip install contextlib2
+(tensorflow12) C:\> pip install jupyter
+(tensorflow12) C:\> pip install matplotlib
+(tensorflow12) C:\> pip install pandas
+(tensorflow12) C:\> pip install opencv-python
+
+( The ‘pandas’ and ‘opencv-python’ packages are not needed by TensorFlow. They are used in the Python scripts to generate TFRecords and to work with images, videos, and webcam feeds.)
+
+2e. Configure PYTHONPATH environment variable
+
+A PYTHONPATH variable must be created that points to the \models, \models\research, and \models\research\slim directories. Use the following commands (from any directory):
+(tensorflow12) C:\> set PYTHONPATH=C:\tensorflow12\models;C:\tensorflow12\models\research;C:\tensorflow12\models\research\slim
+
+2f. Compile Protobufs and run setup.py
+
+Next, compile the Protobuf files, which are used by TensorFlow to configure model and training parameters.
+In the Anaconda Command Prompt, change directories to the \models\research directory:
+
+(tensorflow12) C:\> cd C:\tensorflow12\models\research
+
+Copy and paste the following command into the command line and press Enter:
+protoc --python_out=. .\object_detection\protos\anchor_generator.proto .\object_detection\protos\argmax_matcher.proto .\object_detection\protos\bipartite_matcher.proto .\object_detection\protos\box_coder.proto .\object_detection\protos\box_predictor.proto .\object_detection\protos\eval.proto .\object_detection\protos\faster_rcnn.proto .\object_detection\protos\faster_rcnn_box_coder.proto .\object_detection\protos\grid_anchor_generator.proto .\object_detection\protos\hyperparams.proto .\object_detection\protos\image_resizer.proto .\object_detection\protos\input_reader.proto .\object_detection\protos\losses.proto .\object_detection\protos\matcher.proto .\object_detection\protos\mean_stddev_box_coder.proto .\object_detection\protos\model.proto .\object_detection\protos\optimizer.proto .\object_detection\protos\pipeline.proto .\object_detection\protos\post_processing.proto .\object_detection\protos\preprocessor.proto .\object_detection\protos\region_similarity_calculator.proto .\object_detection\protos\square_box_coder.proto .\object_detection\protos\ssd.proto .\object_detection\protos\ssd_anchor_generator.proto .\object_detection\protos\string_int_label_map.proto .\object_detection\protos\train.proto .\object_detection\protos\keypoint_box_coder.proto .\object_detection\protos\multiscale_anchor_generator.proto .\object_detection\protos\graph_rewriter.proto .\object_detection\protos\calibration.proto .\object_detection\protos\flexible_grid_anchor_generator.proto
+
+Finally, run the following commands from the C:\tensorflow12\models\research directory:
+(tensorflow12) C:\tensorflow12\models\research> python setup.py build
+(tensorflow12) C:\tensorflow12\models\research> python setup.py install
+
+2g. Test TensorFlow setup to verify it works
+From the \object_detection directory, issue this command:
+(tensorflow12) C:\tensorflow12\models\research\object_detection> jupyter notebook object_detection_tutorial.ipynb
 
 
+3. Gather and Label Pictures
+We need to provide the images it will use to train a new detection classifier.
+3a. Gather Pictures
+Make sure the images aren’t too large. They should be less than 200KB each, and their resolution shouldn’t be more than 720x1280. The larger the images are, the longer it will take to train the classifier. 
 
+Move 20% of them to the \object_detection\images\test directory, and 80% of them to the \object_detection\images\train directory.
+
+3b. Label Pictures
+LabelImg is a tool for labeling images.
+
+LabelImg GitHub link
+
+LabelImg download link
+
+Download and install LabelImg, point it to your \images\train directory, and then draw a box around each object in each image. Repeat the process for all the images in the \images\test directory.
+
+LabelImg saves a .xml file containing the label data for each image. These .xml files will be used to generate TFRecords, which are one of the inputs to the TensorFlow trainer. Once you have labeled and saved each image, there will be one .xml file for each image in the \test and \train directories.
+
+4. Generate Training Data
 
