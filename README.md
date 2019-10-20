@@ -1,5 +1,5 @@
 # Object-detection
-** Vehicle detection using deep learning with tensorflow and Python
+*Vehicle detection using deep learning with tensorflow and Python*
 
 This programs explains how to train your own convolutional neural network (CNN) in object detection for multiple objects, starting from scratch. Using the tutorial one can identify and detect specific objects in pictures, videos, or in a webcam feed.
 
@@ -23,7 +23,8 @@ TensorFlow's website describes installation details.
 The TensorFlow Object Detection API and Anaconda Virtual Environment requires configuration. There are several sub steps as explained below.
 
 ### 2a. Download TensorFlow Object Detection API repository from GitHub
-** Create a folder in C: and name it “tensorflow12”. 
+*Create a folder in C: and name it “tensorflow12" *
+
 This working directory will contain the full TensorFlow object detection framework, as well training images, training data, trained classifier, configuration files, and everything else needed for the object detection classifier.
 
 Download the full TensorFlow object detection repository located at https://github.com/tensorflow/models by clicking the “Clone or Download” button and downloading the zip file. Open the downloaded zip file and extract the “models-master” folder directly into the C:\tensorflow12 directory. Rename “models-master” to just “models”.
