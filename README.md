@@ -24,19 +24,19 @@ TensorFlow's website describes for installation details.
 
 The TensorFlow Object Detection API requires using the specific directory structure provided in its GitHub repository. It also requires several Python packages, PATH and PYTHONPATH variables.
 
-## 2a. Download TensorFlow Object Detection API repository from GitHub
+### 2a. Download TensorFlow Object Detection API repository from GitHub
 Create a folder directly in C: and name it “tensorflow12”. This working directory will contain the full TensorFlow object detection framework, as well training images, training data, trained classifier, configuration files, and everything else needed for the object detection classifier.
 Download the full TensorFlow object detection repository located at https://github.com/tensorflow/models by clicking the “Clone or Download” button and downloading the zip file. Open the downloaded zip file and extract the “models-master” folder directly into the C:\tensorflow1 directory you just created. Rename “models-master” to just “models”.
 
-## 2b. Download the Faster-RCNN-Inception-V2-COCO model from TensorFlow's model zoo
+### 2b. Download the Faster-RCNN-Inception-V2-COCO model from TensorFlow's model zoo
 TensorFlow provides several object detection models (pre-trained classifiers with specific neural network architectures) in its model zoo such as the SSD-MobileNet model, Faster-RCNN model.
 
 This progarm use the Faster-RCNN-Inception-V2 model. Download the model here. Open the downloaded faster_rcnn_inception_v2_coco_2018_01_28.tar.gz file with a file archiver such as WinZip or 7-Zip and extract the faster_rcnn_inception_v2_coco_2018_01_28 folder to the C:\tensorflow1\models\research\object_detection folder.
 
-## 2c. Download this program repository from GitHub
+### 2c. Download this program repository from GitHub
 
 
-## 2d. Set up new Anaconda virtual environment
+### 2d. Set up new Anaconda virtual environment
 
 Go to the start menu in Windows, search for the Anaconda Prompt utility, right click on it, and click “Run as Administrator”. The  Windows will asks if you would like to allow it to make changes to your computer, click Yes.
 
@@ -73,12 +73,12 @@ Install the other necessary packages using commands:
 
 ( The ‘pandas’ and ‘opencv-python’ packages are not needed by TensorFlow. They are used in the Python scripts to generate TFRecords and to work with images, videos, and webcam feeds.)
 
-## 2e. Configure PYTHONPATH environment variable
+### 2e. Configure PYTHONPATH environment variable
 
 A PYTHONPATH variable must be created that points to the \models, \models\research, and \models\research\slim directories. Use the following commands (from any directory):
 (tensorflow12) C:\> set PYTHONPATH=C:\tensorflow12\models;C:\tensorflow12\models\research;C:\tensorflow12\models\research\slim
 
-## 2f. Compile Protobufs and run setup.py
+### 2f. Compile Protobufs and run setup.py
 
 Next, compile the Protobuf files, which are used by TensorFlow to configure model and training parameters.
 In the Anaconda Command Prompt, change directories to the \models\research directory:
@@ -92,7 +92,7 @@ Finally, run the following commands from the C:\tensorflow12\models\research dir
 (tensorflow12) C:\tensorflow12\models\research> python setup.py build
 (tensorflow12) C:\tensorflow12\models\research> python setup.py install
 
-## 2g. Test TensorFlow setup to verify it works
+### 2g. Test TensorFlow setup to verify it works
 From the \object_detection directory, issue this command:
 (tensorflow12) C:\tensorflow12\models\research\object_detection> jupyter notebook object_detection_tutorial.ipynb
 
@@ -101,13 +101,13 @@ From the \object_detection directory, issue this command:
 
 We need to provide the images it will use to train a new detection classifier.
 
-## 3a. Gather Pictures
+### 3a. Gather Pictures
 
 Make sure the images aren’t too large. They should be less than 200KB each, and their resolution shouldn’t be more than 720x1280. The larger the images are, the longer it will take to train the classifier. 
 
 Move 20% of them to the \object_detection\images\test directory, and 80% of them to the \object_detection\images\train directory.
 
-## 3b. Label Pictures
+### 3b. Label Pictures
 
 LabelImg is a tool for labeling images.
 
@@ -133,34 +133,45 @@ Next, open the generate_tfrecord.py file in a text editor. Replace the label map
 
 For example, say you are training a classifier to detect basketballs, shirts, and shoes. You will replace the following code in generate_tfrecord.py:
 
-# TO-DO replace this with label map
+### TO-DO replace this with label map
 def class_text_to_int(row_label):
+
     if row_label == 'nine':
         return 1
+        
     elif row_label == 'ten':
         return 2
+        
     elif row_label == 'jack':
         return 3
+        
     elif row_label == 'queen':
         return 4
+        
     elif row_label == 'king':
         return 5
+        
     elif row_label == 'ace':
         return 6
+        
     else:
         None
         
 With this:
 
 
-## TO-DO replace this with label map
+### TO-DO replace this with label map
 def class_text_to_int(row_label):
+
     if row_label == 'basketball':
         return 1
+        
     elif row_label == 'shirt':
         return 2
+        
     elif row_label == 'shoe':
         return 3
+        
     else:
         None
         
