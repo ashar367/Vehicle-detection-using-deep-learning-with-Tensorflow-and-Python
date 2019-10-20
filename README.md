@@ -96,6 +96,9 @@ Finally, run the following commands from the C:\tensorflow12\models\research dir
 From the \object_detection directory, issue this command:
 (tensorflow12) C:\tensorflow12\models\research\object_detection> jupyter notebook object_detection_tutorial.ipynb
 
+![Image of Yaktocat](https://octodex.github.com/images/yaktocat.png)
+
+
 
 # 3. Gather and Label Pictures
 
