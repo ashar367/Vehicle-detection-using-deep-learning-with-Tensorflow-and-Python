@@ -187,3 +187,87 @@ These generate a train.record and a test.record file in \object_detection. These
 
 # 5. Create Label Map and Configure Training
 
+### 5a. Label map
+Use a text editor to create a new file and save it as labelmap.pbtxt in the 
+
+C:\tensorflow1\models\research\object_detection\training folder.
+
+item {
+  id: 1
+  name: ''
+}
+
+item {
+  id: 2
+  name: ''
+}
+
+
+item {
+  id: 3
+  name: ''
+}
+
+
+item {
+  id: 4
+  name: ''
+}
+
+
+item {
+  id: 5
+  name: ''
+}
+
+
+item {
+  id: 6
+  name: ''
+}
+
+The label map ID numbers should be the same as what is defined in the generate_tfrecord.py file. For the basketball, shirt, and shoe detector example mentioned in Step 4, the labelmap.pbtxt file will look like:
+
+tem {
+  id: 1
+  name: 'basketball'
+}
+
+
+item {
+  id: 2
+  name: 'shirt'
+}
+
+
+item {
+  id: 3
+  name: 'shoe'
+}
+
+# 5b. Configure training
+
+Navigate to 
+C:\tensorflow1\models\research\object_detection\samples\configs 
+and copy the faster_rcnn_inception_v2_pets.config file into the 
+\object_detection\training directory. Then, open the file with a text editor.
+There are several changes to make to the .config file, mainly changing the number of classes and examples, and adding the file paths to the training data.
+
+Make the following changes to the faster_rcnn_inception_v2_pets.config file.
+
+* Line 9. Change num_classes to the number of different objects you want the classifier to detect. For the above basketball, shirt, and shoe detector, it would be num_classes : 3 .
+
+* Line 106. Change fine_tune_checkpoint to:
+
+fine_tune_checkpoint : "C:/tensorflow1/models/research/object_detection/faster_rcnn_inception_v2_coco_2018_01_28/model.ckpt"
+Lines 123 and 125. In the train_input_reader section, change input_path and label_map_path to:
+
+input_path : "C:/tensorflow1/models/research/object_detection/train.record"
+label_map_path: "C:/tensorflow1/models/research/object_detection/training/labelmap.pbtxt"
+Line 130. Change num_examples to the number of images you have in the \images\test directory.
+
+Lines 135 and 137. In the eval_input_reader section, change input_path and label_map_path to:
+
+input_path : "C:/tensorflow1/models/research/object_detection/test.record"
+label_map_path: "C:/tensorflow1/models/research/object_detection/training/labelmap.pbtxt"
+Save the file after the changes have been made. That’s it! The training job is all configured and ready to go!
