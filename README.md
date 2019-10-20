@@ -11,7 +11,7 @@ The steps used to train model on window (10, 7, 8) in the Tensorflow envionment 
 # 1. Install Anaconda
 
 Visit https://www.anaconda.com/distribution/#download-section
-Downlaod and install Anaconda 
+Download and install Anaconda 
 
 Visit 
 https://www.tensorflow.org/
