@@ -60,14 +60,18 @@ In the command terminal that pops up, create a new virtual environment called �
 C:\> conda create -n tensorflow12 pip python=3.5
 
 Activate the environment and update pip:
+```
 C:\> activate tensorflow12
-
 (tensorflow12) C:\>python -m pip install --upgrade pip
+```
 
 Install tensorflow in this environment by issuing:
+```
 (tensorflow12) C:\> pip install --ignore-installed --upgrade tensorflow
+```
 
 Install the other necessary packages using commands:
+```
 (tensorflow12) C:\> conda install -c anaconda protobuf
 
 (tensorflow12) C:\> pip install pillow
@@ -85,36 +89,43 @@ Install the other necessary packages using commands:
 (tensorflow12) C:\> pip install pandas
 
 (tensorflow12) C:\> pip install opencv-python
+```
 
 ( The ‘pandas’ and ‘opencv-python’ packages are not needed by TensorFlow. They are used in the Python scripts to generate TFRecords and to work with images, videos, and webcam feeds.)
 
 ### 2e. Configure PYTHONPATH environment variable
 
 A PYTHONPATH variable must be created that points to the \models, \models\research, and \models\research\slim directories. Use the following commands (from any directory):
-
+```
 (tensorflow12) C:\> set PYTHONPATH=C:\tensorflow12\models;C:\tensorflow12\models\research;C:\tensorflow12\models\research\slim
+```
 
 ### 2f. Compile Protobufs and run setup.py
 
 Next, compile the Protobuf files, which are used by TensorFlow to configure model and training parameters.
 In the Anaconda Command Prompt, change directories to the \models\research directory:
-
+```
 (tensorflow12) C:\> cd C:\tensorflow12\models\research
+```
 
 Copy and paste the following command into the command line and press Enter:
 
+```
 protoc --python_out=. .\object_detection\protos\anchor_generator.proto .\object_detection\protos\argmax_matcher.proto .\object_detection\protos\bipartite_matcher.proto .\object_detection\protos\box_coder.proto .\object_detection\protos\box_predictor.proto .\object_detection\protos\eval.proto .\object_detection\protos\faster_rcnn.proto .\object_detection\protos\faster_rcnn_box_coder.proto .\object_detection\protos\grid_anchor_generator.proto .\object_detection\protos\hyperparams.proto .\object_detection\protos\image_resizer.proto .\object_detection\protos\input_reader.proto .\object_detection\protos\losses.proto .\object_detection\protos\matcher.proto .\object_detection\protos\mean_stddev_box_coder.proto .\object_detection\protos\model.proto .\object_detection\protos\optimizer.proto .\object_detection\protos\pipeline.proto .\object_detection\protos\post_processing.proto .\object_detection\protos\preprocessor.proto .\object_detection\protos\region_similarity_calculator.proto .\object_detection\protos\square_box_coder.proto .\object_detection\protos\ssd.proto .\object_detection\protos\ssd_anchor_generator.proto .\object_detection\protos\string_int_label_map.proto .\object_detection\protos\train.proto .\object_detection\protos\keypoint_box_coder.proto .\object_detection\protos\multiscale_anchor_generator.proto .\object_detection\protos\graph_rewriter.proto .\object_detection\protos\calibration.proto .\object_detection\protos\flexible_grid_anchor_generator.proto
+```
 
 Finally, run the following commands from the 
 C:\tensorflow12\models\research directory:
-
+```
 (tensorflow12) C:\tensorflow12\models\research> python setup.py build
 (tensorflow12) C:\tensorflow12\models\research> python setup.py install
+```
 
 ### 2g. Test TensorFlow setup to verify it works
 From the \object_detection directory, issue this command:
-
+```
 (tensorflow12) C:\tensorflow12\models\research\object_detection> jupyter notebook object_detection_tutorial.ipynb
+```
 
 ![Image of objects](https://github.com/tensorflow/models/raw/master/research/object_detection/g3doc/img/kites_detections_output.jpg)
 
@@ -147,7 +158,9 @@ With the images labeled, now generate the TFRecords that serve as input data to 
 
 First, the image .xml data will be used to create .csv files containing all the data for the train and test images. From the \object_detection folder, issue the following command in the Anaconda command prompt:
 
+```
 (tensorflow12) C:\tensorflow12\models\research\object_detection> python xml_to_csv.py
+```
 
 This creates a train_labels.csv and test_labels.csv file in the \object_detection\images folder.
 
@@ -184,9 +197,11 @@ def class_text_to_int(row_label):
         
 Then, generate the TFRecord files by issuing these commands from the \object_detection folder:
 
+```
 python generate_tfrecord.py --csv_input=images\train_labels.csv --image_dir=images\train --output_path=train.record
 
 python generate_tfrecord.py --csv_input=images\test_labels.csv --image_dir=images\test --output_path=test.record
+```
 
 These generate a train.record and a test.record file in \object_detection. These will be used to train the new object detection classifier.
 
@@ -242,19 +257,21 @@ Save the file after the changes have been made. The training job is all configur
 # 6. Run the Training
 
 From the \object_detection directory, issue the following command to begin training:
-
+```
 python train.py --logtostderr --train_dir=training/ --pipeline_config_path=training/faster_rcnn_inception_v2_pets.config
+```
 
 If everything has been set up correctly, TensorFlow will initialize the training. The initialization can take up to 30 seconds before the actual training begins. When training begins, it will look like this:
 
 
 Each step of training reports the loss. It will start high and get lower and lower as training progresses. It will take about 40,000 steps, or about 2 hours (depending on how powerful your CPU and GPU are). Note: The loss numbers will be different if a different model is used. MobileNet-SSD starts with a loss of about 20, and should be trained until the loss is consistently under 2.
 
-You can view the progress of the training job by using TensorBoard. Open a new instance of Anaconda Prompt, activate the tensorflow12 virtual environment, change to the 
+You can view the progress of the training job by using TensorBoard. Open a new instance of Anaconda Prompt, activate the tensorflow12 virtual environment, change to the
 
 C:\tensorflow12\models\research\object_detection directory, and issue the following command:
-
+```
 (tensorflow12) C:\tensorflow12\models\research\object_detection>tensorboard --logdir=training
+```
 
 This will create a webpage on the local machine, which can be viewed through a web browser. The TensorBoard page provides information and graphs that show how the training is progressing. One important graph is the Loss graph, which shows the overall loss of the classifier over time.
 
@@ -262,7 +279,9 @@ This will create a webpage on the local machine, which can be viewed through a w
 
 From the \object_detection folder, issue the following command, where “XXXX” in “model.ckpt-XXXX” should be replaced with the highest-numbered .ckpt file in the training folder:
 
+```
 python export_inference_graph.py --input_type image_tensor --pipeline_config_path training/faster_rcnn_inception_v2_pets.config --trained_checkpoint_prefix training/model.ckpt-XXXX --output_directory inference_graph
+```
 
 This creates a frozen_inference_graph.pb file in the \object_detection\inference_graph folder. The .pb file contains the object detection classifier.
 
